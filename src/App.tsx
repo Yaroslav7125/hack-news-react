@@ -1,23 +1,64 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from './logo.svg';
 import './App.css';
-import axios from 'axios';
-import { Provider } from 'react-redux';
-import { store } from './store/index';
+
+import { fetchData } from './services/getNews';
+import { NewsItem } from './components/NewsItem';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { News } from './store';
 
 function App() {
-  const data = axios.get('https://api.hnpwa.com/v0/news/2.json').then((result) => {
-    // eslint-disable-next-line no-console
-    console.log(result);
-  });
+  const dispatch = useDispatch();
+  const newsStore = useSelector((state) => state);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  useEffect(() => {
+    fetchData(pageNumber).then((result) => {
+      dispatch({ type: 'SET_NEWS', payload: result.data });
+    });
+  }, [pageNumber]);
+
+  const setNextPage = () => {
+    setPageNumber((prevPageNumber: number) => {
+      return prevPageNumber + 1;
+    });
+  };
+
+  const setPrevPage = () => {
+    if (pageNumber === 1) return;
+    setPageNumber((prevPageNumber: number) => {
+      return prevPageNumber - 1;
+    });
+  };
+
+  // eslint-disable-next-line no-console
+  console.log(newsStore);
+
   return (
-    <>
-      <Provider store={store}></Provider>
-      <div className={'d-flex justify-content-center'}>
-        <h1>Hacker news</h1>
+    <div className={'d-flex align-items-center flex-column'}>
+      <h1>Hacker news</h1>
+
+      {(newsStore as News[]).map((theNews: News) => {
+        return (
+          <NewsItem
+            title={theNews.title}
+            id={theNews.id}
+            key={theNews.id}
+            points={theNews.points}
+            time={theNews.time}
+            user={theNews.user}
+          />
+        );
+      })}
+
+      <div>
+        <button onClick={() => setNextPage()}>Next</button>
+        <button onClick={() => setPrevPage()}>Prev</button>
+        <h1>{pageNumber}</h1>
       </div>
-    </>
+    </div>
   );
 }
 
