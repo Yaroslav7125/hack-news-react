@@ -32,7 +32,6 @@ const newsCard = {
   borderRadius: '5px',
   padding: '5px',
   display: 'flex',
-  // flexDirection: 'column',
   margin: '5px',
   textDecoration: 'none',
 };

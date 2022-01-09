@@ -13,10 +13,18 @@ export const NewsList: React.FC<{ setNextPage: () => void; setPrevPage: () => vo
   const newsStore = useSelector((state) => state);
   const { id: pageNumber } = useParams();
 
-  useEffect(() => {
+  const updateNewsList = () => {
     fetchAllNews(pageNumber).then((result) => {
       dispatch({ type: 'SET_NEWS', payload: result.data });
     });
+  };
+
+  useEffect(() => {
+    updateNewsList();
+    const intervalId = setInterval(() => updateNewsList(), 60000);
+    return () => {
+      clearInterval(intervalId);
+    };
     // eslint-disable-next-line
   }, [pageNumber]);
 
@@ -39,6 +47,7 @@ export const NewsList: React.FC<{ setNextPage: () => void; setPrevPage: () => vo
       <div>
         <button onClick={() => setNextPage()}>Next</button>
         <button onClick={() => setPrevPage()}>Prev</button>
+        <button onClick={() => updateNewsList()}>Update news list</button>
         <h1>{pageNumber}</h1>
       </div>
     </>
