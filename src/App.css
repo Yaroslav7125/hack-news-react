@@ -24,6 +24,15 @@
   color: white;
 }
 
+.active {
+  text-decoration: none;
+  color: black;
+}
+
+.active:hover {
+  color: black;
+}
+
 .App-link {
   color: #61dafb;
 }
