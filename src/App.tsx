@@ -13,6 +13,7 @@ import { parsePathName } from './lib/utils';
 
 function App() {
   const { pathname } = useLocation();
+
   const [newsPage, setNewsPage] = useState(parsePathName(pathname) || 1);
   const navigate = useNavigate();
 
@@ -26,7 +27,7 @@ function App() {
   };
 
   useEffect(() => {
-    navigate(`/${newsPage}`);
+    navigate(/\/[0-9]*\/news\/[\d]*/gm.test(pathname) ? pathname : `/${newsPage}`);
   }, [newsPage]);
 
   return (

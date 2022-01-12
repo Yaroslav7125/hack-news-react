@@ -1,10 +1,7 @@
 import React from 'react';
-import { News } from '../store/index';
+import { INews } from '../store/index';
 
-export const NewsItem: React.FC<News> = ({ id, points, time, user, title }) => {
-  const date = new Date(time).toLocaleDateString();
-  // eslint-disable-next-line no-console
-  console.log(date);
+export const NewsItem: React.FC<INews> = ({ id, points, time_ago, user, title, url }) => {
   return (
     <div style={newsCard} className={'flex-column'}>
       <span style={{ fontSize: '10px', textDecoration: 'none' }}>{title}</span>
@@ -16,7 +13,7 @@ export const NewsItem: React.FC<News> = ({ id, points, time, user, title }) => {
           <span>{user}</span>
         </div>
         <div>
-          <span>{date}</span>
+          <span>{time_ago}</span>
         </div>
       </div>
     </div>
@@ -26,7 +23,7 @@ export const NewsItem: React.FC<News> = ({ id, points, time, user, title }) => {
 const newsCard = {
   width: '500px',
   height: '50px',
-  backgroundColor: 'grey',
+  backgroundColor: '#ec7c26',
   border: '3px solid',
   borderColor: 'black',
   borderRadius: '5px',
@@ -34,6 +31,7 @@ const newsCard = {
   display: 'flex',
   margin: '5px',
   textDecoration: 'none',
+  boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
 };
 
 export default NewsItem;

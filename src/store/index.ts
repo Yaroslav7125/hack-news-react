@@ -1,19 +1,20 @@
 import { createStore } from 'redux';
 
-export interface News {
+export interface INews {
   id: number;
   title: string;
   points: number;
-  time: number;
+  time_ago: string;
   user: string;
+  url: string;
 }
 
 interface Action {
   type: 'SET_NEWS';
-  payload: News[];
+  payload: INews[];
 }
 
-const defaultState: News[] = [];
+const defaultState: INews[] = [];
 const reducer = (state = defaultState, action: Action) => {
   switch (action.type) {
     case 'SET_NEWS':

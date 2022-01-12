@@ -7,8 +7,6 @@ export const Layout = () => {
       <h1>Hacker news</h1>
 
       <Outlet />
-
-      <h5>Footer</h5>
     </>
   );
 };

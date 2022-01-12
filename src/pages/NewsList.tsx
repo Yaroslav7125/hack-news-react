@@ -1,6 +1,6 @@
-import { News } from '../store';
+import { INews } from '../store';
 import { NewsItem } from '../components/NewsItem';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllNews } from '../services/getNews';
@@ -30,7 +30,7 @@ export const NewsList: React.FC<{ setNextPage: () => void; setPrevPage: () => vo
 
   return (
     <>
-      {(newsStore as News[]).map((theNews: News) => {
+      {(newsStore as INews[]).map((theNews: INews) => {
         return (
           <NavLink className={'active'} key={theNews.id} to={`news/${theNews.id}`}>
             <NewsItem
@@ -38,17 +38,25 @@ export const NewsList: React.FC<{ setNextPage: () => void; setPrevPage: () => vo
               id={theNews.id}
               key={theNews.id}
               points={theNews.points}
-              time={theNews.time}
+              time_ago={theNews.time_ago}
               user={theNews.user}
+              url={theNews.url}
             />
           </NavLink>
         );
       })}
-      <div>
-        <button onClick={() => setNextPage()}>Next</button>
-        <button onClick={() => setPrevPage()}>Prev</button>
-        <button onClick={() => updateNewsList()}>Update news list</button>
-        <h1>{pageNumber}</h1>
+      <div style={{ width: '500px', marginTop: '20px' }}>
+        <div style={{ width: '100%', marginBottom: '35px' }} className={'d-flex justify-content-between'}>
+          <button className={'btn btn-primary'} onClick={() => setPrevPage()}>
+            Prev
+          </button>
+          <button className={'btn btn-primary'} onClick={() => setNextPage()}>
+            Next
+          </button>
+          <button className={'btn btn-primary'} onClick={() => updateNewsList()}>
+            Update news list
+          </button>
+        </div>
       </div>
     </>
   );
