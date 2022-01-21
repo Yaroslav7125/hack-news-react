@@ -2,42 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchNewsItem } from '../services/getNews';
 import { CommentItem } from '../components/CommentItem';
-
-export interface IItem {
-  id: number;
-  title: string;
-  points: number | null;
-  user: string | null;
-  time: number;
-  time_ago: string;
-  content: string;
-  deleted?: boolean;
-  dead?: boolean;
-  type: string;
-  url?: string;
-  domain?: string;
-  comments: ICommentItem[]; // Comments are items too
-  level: number;
-  comments_count: number;
-}
-
-export interface ICommentItem {
-  // траблы с типизацией в строке 19
-  comments: ICommentItem[];
-  id: number;
-  content: string;
-  time: number;
-  user: string;
-}
+import { ItemComment } from '../types';
 
 export const CurrentNews = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [currentNews, setCurrentNews] = useState<IItem | null>(null);
+  const [currentNews, setCurrentNews] = useState<ItemComment | null>(null);
 
   const updateCommentsList = () => {
-    fetchNewsItem(Number(id)).then((result) => {
-      setCurrentNews(result.data as IItem);
+    fetchNewsItem(id).then((result) => {
+      return setCurrentNews(result?.data ? result.data : null);
     });
   };
 
@@ -79,6 +53,9 @@ export const CurrentNews = () => {
               user={comment.user}
               time={comment.time}
               content={comment.content}
+              time_ago={comment.time_ago}
+              title={comment.title}
+              comments_count={comment.comments_count}
             />
           );
         })}

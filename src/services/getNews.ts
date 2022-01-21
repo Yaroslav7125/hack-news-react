@@ -1,9 +1,13 @@
-import axios from 'axios';
+import { taxios } from '../taxios';
 
-export async function fetchAllNews(pageNumber: number | string | undefined) {
-  return await axios.get(`https://api.hnpwa.com/v0/news/${pageNumber}.json`);
+export async function fetchAllNews(pageNumber?: string) {
+  if (!pageNumber) return null;
+
+  return await taxios.get('/news/{pageNumber}.json', { params: { pageNumber } });
 }
 
-export async function fetchNewsItem(itemId: number | string | undefined) {
-  return await axios.get(`https://api.hnpwa.com/v0/item/${itemId}.json`);
+export async function fetchNewsItem(itemId?: string) {
+  if (!itemId) return null;
+
+  return await taxios.get('/item/{itemId}.json', { params: { itemId } });
 }

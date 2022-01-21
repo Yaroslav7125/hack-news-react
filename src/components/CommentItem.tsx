@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ICommentItem } from '../pages/CurrentNews';
+import { ItemComment } from '../types';
 import sanitizeHtml from 'sanitize-html';
 import Interweave from 'interweave';
 
-export const CommentItem: React.FC<ICommentItem> = ({ id, comments, time, user, content, children }) => {
+export const CommentItem: React.FC<ItemComment> = ({ comments, time_ago, comments_count, content, user }) => {
   const [flag, setFlag] = useState(false);
 
   return (
@@ -17,7 +17,12 @@ export const CommentItem: React.FC<ICommentItem> = ({ id, comments, time, user, 
         }}
       >
         <Interweave content={sanitizeHtml(content, { allowedTags: false, allowedAttributes: false })} />
-        <p> {}</p>
+        <div className={'d-flex justify-content-between'}>
+          <p>
+            {user} {time_ago}
+          </p>
+          <p>Comments count: {comments_count}</p>
+        </div>
       </div>
       {flag ? (
         <div style={{ marginLeft: '20px', borderLeft: '3px solid grey' }}>
@@ -30,6 +35,8 @@ export const CommentItem: React.FC<ICommentItem> = ({ id, comments, time, user, 
                 user={comment.user}
                 content={comment.content}
                 key={comment.id}
+                time_ago={comment.time_ago}
+                comments_count={comment.comments_count}
               />
             );
           })}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { INews } from '../store/index';
+import { News } from '../types';
 
-export const NewsItem: React.FC<INews> = ({ id, points, time_ago, user, title, url }) => {
+export const NewsItem: React.FC<News> = ({ points, time_ago, user, title }) => {
   return (
     <div style={newsCard} className={'flex-column'}>
       <span style={{ fontSize: '10px', textDecoration: 'none' }}>{title}</span>
